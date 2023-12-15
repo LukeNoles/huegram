@@ -45,7 +45,6 @@ function App() {
       {/* <Menu /> */}
 
       <Main hues={hues} addHue = {addNewHue} toggleLike = {toggleLikeForHue}/>
-
       <Profile />
     </div>
   )
