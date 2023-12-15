@@ -1,19 +1,21 @@
 import HueObject from "../HueObject";
+import emptyheart from '/public/emptyheart.png'
+import filledheart from '/public/heart.png'
 interface Props {
   hue: HueObject,
   toggleLike?: (id?:number)=> void
 }
 
-function getTextColor(backgroundColor:string): string
+function getTextColor(backgroundColor:string)
 {
-  if(backgroundColor){
-    return "white";
-  }
-  else {
-    return "black ";
-  }
+    const brightness = Math.round(((parseInt(backgroundColor[0]) * 299) +
+                        (parseInt(backgroundColor[1]) * 587) +
+                        (parseInt(backgroundColor[2]) * 114)) / 1000);
+    const textColour = (brightness > 125) ? 'black' : 'white';
+    return textColour
+  
 }
-
+var likecount = 1;
 const Hue = ({hue, toggleLike}: Props) => {
   return (
     <div
@@ -21,14 +23,13 @@ const Hue = ({hue, toggleLike}: Props) => {
       style={{ backgroundColor: hue.color }}
       onClick={ ()=> toggleLike && toggleLike(hue.id)}
     >
-      <p className={`text-${getTextColor(hue.color)} text-2xl opacity-80`}>{hue.color}</p>
+      <p className={`text-${getTextColor(hue.color)} text-2xl opacity-80 mix-blend-difference`}>{hue.color}</p>
 
-      {/* {hue.isLiked && <span>HEART</span>}
-      {!hue.isLiked && <span>NO HEART</span>} */}
 
-      {hue.isLiked ? <span>HEART</span> : <span>NO HEART</span> }
+      {hue.isLiked ? <img src={emptyheart} alt="" className='h-12'/>: <img src={filledheart} alt="" className='h-12'/>}
+      {hue.isLiked ? likecount = 0  : likecount = likecount = 1}
 
-      <div className="bg-black text-white flex w-full text-center justify-center p-4 rounded-b-2xl">
+      <div className="bg-sky-50 text-zinc-900 flex w-full text-center justify-center p-4 rounded-b-2xl">
         <p className="text-xl">{hue.username}</p>
 
       </div>
